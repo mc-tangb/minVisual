@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+	<script id="font-hack" type="text/javascript">
+		if (/windows/i.test(navigator.userAgent)) {
+		    var el = document.createElement('style');
+		    el.innerHTML = ''
+		        + '@font-face {font-family:"noto-thin";src:local("Microsoft Yahei");}'
+		        + '@font-face {font-family:"noto-light";src:local("Microsoft Yahei");}';
+		    document.head.insertBefore(el, document.getElementById('font-hack'));
+		}
+	</script>
+	<title>ECharts Examples</title>
+</head>
+	<!--[if lte IE 8]>
+<body class="lower-ie">
+	<![endif]-->
+	<!--[if (gt IE 8)|!(IE)]>
+<body class="undefined"></body>
+	<![endif]-->
+<body class=" pace-done">
+	<div class="pace  pace-inactive">
+		<div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+			<div class="pace-progress-inner"></div>
+		</div>
+		<div class="pace-activity"></div>
+	</div>
+	<div id="main">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" class="navbar-toggle collapsed">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="http://echarts.baidu.com/index.html" class="navbar-brand">
+						<img src="" alt="echarts logo" class="navbar-logo">
+					</a>
+				</div>
+				<div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li id="nav-index">
+							<a href="http://echarts.baidu.com/index.html">首页</a>
+						</li>
+						<li id="nav-doc" class="dropdown">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+								文档 <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="http://echarts.baidu.com/tutorial.html">教程</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/api.html">API</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/option.html">配置项手册</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/changelog.html">Changelog</a>
+								</li>
+							</ul>
+						</li>
+						<li id="nav-examples" class="active">
+							<a href="http://echarts.baidu.com/examples.html">实例</a>
+						</li>
+						<li id="nav-download" class="dropdown">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+								下载 <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="http://echarts.baidu.com/download.html">下载</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/builder.html">在线构建</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/download-map.html">地图</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/download-theme.html">主题下载</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/theme-builder/">主题构建</a>
+								</li>
+								<li>
+									<a href="http://echarts.baidu.com/spreadsheet.html">表格工具</a>
+								</li>
+							</ul>
+						</li>
+						<li id="nav-github">
+							<a href="https://github.com/ecomfe/echarts" target="_blank">GitHub</a>
+						</li>
+						<li id="nav-2" class="0">
+							<a href="http://echarts.baidu.com/echarts2/">2.0</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div id="nav-mask" style="display: none;"></div>
+		<div id="nav-layer" class="ps-container" data-ps-id="25e040ac-19cc-fbac-b527-365f6e919e98" style="top: 556px; display: none;">
+			<ul class="chart-list">
+				<li>
+					<a href="demo.html#treemap-disk">
+						<img src="http://echarts.baidu.com/gallery/data/thumb/treemap-disk.png"></a>
+				</li>
+				<li>
+					<a href="demo.html#treemap-drill-down">
+						<img src="http://echarts.baidu.com/gallery/data/thumb/treemap-drill-down.png"></a>
+				</li>
+				<li>
+					<a href="demo.html#treemap-obama">
+						<img src="http://echarts.baidu.com/gallery/data/thumb/treemap-obama.png"></a>
+				</li>
+			</ul>
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+				<div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+			</div>
+			<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+				<div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+			</div>
+		</div>
+		<div id="left-chart-nav" class="ps-container ps-active-y" data-ps-id="44cc4e81-9fe9-28f8-6436-0c38f91a6caa">
+			<ul>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-scatter" href="#chart-type-scatter">
+						<div class="chart-icon"></div>
+						<div class="chart-name">散点图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-line" href="#chart-type-line">
+						<div class="chart-icon"></div>
+						<div class="chart-name">折线图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-bar" href="#chart-type-bar">
+						<div class="chart-icon"></div>
+						<div class="chart-name">柱状图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-map" href="#chart-type-map">
+						<div class="chart-icon"></div>
+						<div class="chart-name">地图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-pie" href="#chart-type-pie">
+						<div class="chart-icon"></div>
+						<div class="chart-name">饼图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-radar" href="#chart-type-radar">
+						<div class="chart-icon"></div>
+						<div class="chart-name">雷达图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-candlestick" href="#chart-type-candlestick">
+						<div class="chart-icon"></div>
+						<div class="chart-name">k线图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-boxplot" href="#chart-type-boxplot">
+						<div class="chart-icon"></div>
+						<div class="chart-name">箱线图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-heatmap" href="#chart-type-heatmap">
+						<div class="chart-icon"></div>
+						<div class="chart-name">热力图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-graph" href="#chart-type-graph">
+						<div class="chart-icon"></div>
+						<div class="chart-name">关系图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-treemap" href="#chart-type-treemap">
+						<div class="chart-icon"></div>
+						<div class="chart-name">矩形树图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-parallel" href="#chart-type-parallel">
+						<div class="chart-icon"></div>
+						<div class="chart-name">平行坐标</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-sankey" href="#chart-type-sankey">
+						<div class="chart-icon"></div>
+						<div class="chart-name">桑基图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-funnel" href="#chart-type-funnel">
+						<div class="chart-icon"></div>
+						<div class="chart-name">漏斗图</div>
+					</a>
+				</li>
+				<li>
+					<a class="left-chart-nav-link" id="left-chart-nav-gauge" href="#chart-type-gauge">
+						<div class="chart-icon"></div>
+						<div class="chart-name">仪表盘</div>
+					</a>
+				</li>
+			</ul>
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+				<div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+			</div>
+			<div class="ps-scrollbar-y-rail" style="top: 0px; height: 566px; right: 3px;">
+				<div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 395px;"></div>
+			</div>
+		</div>
+		<div id="explore-container">
+			<div class="chart-list-panel">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
