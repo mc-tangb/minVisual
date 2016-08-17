@@ -1,0 +1,50 @@
+require.config({
+	baseUrl:'js/lib',
+	paths:{
+		'jquery':'jquery/jquery-min',
+		'bootstrap':'.bootstrap/bootstrap.min',
+		'underscore':'underscore/underscore-min',
+		'backbone':'backbone/backbone-min',
+		'bmap':'./lib/bmap/BMap-min',
+		'mapv':'./lib/mapv/Mapv',
+		'echarts':'./lib/echarts/echarts',
+		'text': './lib/requirejs/text'
+	},
+	shim:{
+		'backbone':{
+			deps:['jquery','underscore'],
+			exports:'Backbone'
+		},
+		'mapv':{
+			deps:['jquery','bmap'],
+			exports:'Mapv'
+		},
+		'bootstrap':{
+			deps:['jquery']
+		},
+		'jquery':{
+			exports:'$'
+		},
+		'layer':{
+			deps:['jquery']
+		},
+		'bmapDrawTool':{
+			deps:['bmap']
+		},
+		'RectangleZoom':{
+			deps:['bmap']
+		},
+		'validate':{
+			deps:['jquery']
+		}
+	}
+});
+require([
+	'jquery',
+	'./page/service/barService',
+	'bootstrap'
+	],
+	function($, service){
+		service();
+	}
+);
