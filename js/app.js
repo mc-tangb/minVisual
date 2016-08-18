@@ -6,9 +6,11 @@ require.config({
 		'underscore':'underscore/underscore-min',
 		'backbone':'backbone/backbone-min',
 		'bmap':'bmap/BMap-min',
+		'mapext': 'bmap/bmap.ext',
 		'mapv':'mapv/Mapv',
 		'echarts':'echarts/echarts.min',
 		'text': 'requirejs/text',
+		'json': 'requirejs/json',
 		'app': '../app',
 	},
 	shim:{
@@ -30,9 +32,11 @@ require.config({
 });
 require([
 	'jquery',
+	'backbone',
+	'app/main',
 	'bootstrap'
 	],
-	function($){
-		
+	function($, Backbone){
+		Backbone.history.start();
 	}
 );

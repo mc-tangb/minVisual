@@ -1,7 +1,7 @@
-define(['jquery', 'underscore', 'Backbone'], 
-function($, _, Backbone){
-	var headerView = Backbone.View.extend({
-		el:'',
+define(['jquery', 'underscore', 'backbone', './left_view'], 
+function($, _, Backbone, left_view){
+	var mainView = Backbone.View.extend({
+		el:'#main',
 		events:{
 
 		},
@@ -9,7 +9,9 @@ function($, _, Backbone){
 
 		},
 		render: function(){
-
+			var lview = new left_view();
+			lview.render();
 		}
 	})
+	return mainView;
 })
