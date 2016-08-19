@@ -795,7 +795,7 @@ function($, _, Backbone, leftRouter, ec , busline){
 					}
 					return res;
 				};
-				console.log(convertData(data));
+
 				var option = {
 					title: {
 						text: '全国主要城市空气质量 - 百度地图',
@@ -996,114 +996,107 @@ function($, _, Backbone, leftRouter, ec , busline){
 						}
 					};
 				}));
-				console.log(busLines);
-				chart.setOption(option = {
+				var option = {
 					bmap: {
 						center: [116.46, 39.92],
 						zoom: 10,
 						roam: true,
 						mapStyle: {
-							'styleJson': [{
+							styleJson: [{
 								'featureType': 'water',
 								'elementType': 'all',
 								'stylers': {
-									'color': '#031628'
+									'color': '#d1d1d1'
 								}
 							}, {
 								'featureType': 'land',
-								'elementType': 'geometry',
+								'elementType': 'all',
 								'stylers': {
-									'color': '#000102'
+									'color': '#f3f3f3'
+								}
+							}, {
+								'featureType': 'railway',
+								'elementType': 'all',
+								'stylers': {
+									'visibility': 'off'
 								}
 							}, {
 								'featureType': 'highway',
 								'elementType': 'all',
 								'stylers': {
+									'color': '#fdfdfd'
+								}
+							}, {
+								'featureType': 'highway',
+								'elementType': 'labels',
+								'stylers': {
 									'visibility': 'off'
 								}
 							}, {
 								'featureType': 'arterial',
-								'elementType': 'geometry.fill',
+								'elementType': 'geometry',
 								'stylers': {
-									'color': '#000000'
+									'color': '#fefefe'
 								}
 							}, {
 								'featureType': 'arterial',
-								'elementType': 'geometry.stroke',
-								'stylers': {
-									'color': '#0b3d51'
-								}
-							}, {
-								'featureType': 'local',
-								'elementType': 'geometry',
-								'stylers': {
-									'color': '#000000'
-								}
-							}, {
-								'featureType': 'railway',
 								'elementType': 'geometry.fill',
 								'stylers': {
-									'color': '#000000'
+									'color': '#fefefe'
 								}
 							}, {
-								'featureType': 'railway',
-								'elementType': 'geometry.stroke',
+								'featureType': 'poi',
+								'elementType': 'all',
 								'stylers': {
-									'color': '#08304b'
-								}
-							}, {
-								'featureType': 'subway',
-								'elementType': 'geometry',
-								'stylers': {
-									'lightness': -70
-								}
-							}, {
-								'featureType': 'building',
-								'elementType': 'geometry.fill',
-								'stylers': {
-									'color': '#000000'
-								}
-							}, {
-								'featureType': 'all',
-								'elementType': 'labels.text.fill',
-								'stylers': {
-									'color': '#857f7f'
-								}
-							}, {
-								'featureType': 'all',
-								'elementType': 'labels.text.stroke',
-								'stylers': {
-									'color': '#000000'
-								}
-							}, {
-								'featureType': 'building',
-								'elementType': 'geometry',
-								'stylers': {
-									'color': '#022338'
+									'visibility': 'off'
 								}
 							}, {
 								'featureType': 'green',
-								'elementType': 'geometry',
-								'stylers': {
-									'color': '#062032'
-								}
-							}, {
-								'featureType': 'boundary',
 								'elementType': 'all',
 								'stylers': {
-									'color': '#465b6c'
+									'visibility': 'off'
+								}
+							}, {
+								'featureType': 'subway',
+								'elementType': 'all',
+								'stylers': {
+									'visibility': 'off'
 								}
 							}, {
 								'featureType': 'manmade',
 								'elementType': 'all',
 								'stylers': {
-									'color': '#022338'
+									'color': '#d1d1d1'
+								}
+							}, {
+								'featureType': 'local',
+								'elementType': 'all',
+								'stylers': {
+									'color': '#d1d1d1'
+								}
+							}, {
+								'featureType': 'arterial',
+								'elementType': 'labels',
+								'stylers': {
+									'visibility': 'off'
+								}
+							}, {
+								'featureType': 'boundary',
+								'elementType': 'all',
+								'stylers': {
+									'color': '#fefefe'
+								}
+							}, {
+								'featureType': 'building',
+								'elementType': 'all',
+								'stylers': {
+									'color': '#d1d1d1'
 								}
 							}, {
 								'featureType': 'label',
-								'elementType': 'all',
+								'elementType': 'labels.text.fill',
 								'stylers': {
-									'visibility': 'off'
+									'color': '#999999'
 								}
 							}]
 						}
@@ -1142,7 +1135,8 @@ function($, _, Backbone, leftRouter, ec , busline){
 						},
 						zlevel: 1
 					}]
-				});
+				}
+				chart.setOption(option);
 			});
 		}
 	})

@@ -8,7 +8,7 @@ require.config({
 		'bmap':'bmap/BMap-min',
 		'mapext': 'bmap/bmap.ext',
 		'mapv':'mapv/Mapv',
-		'echarts':'echarts/echarts.min',
+		'echarts':'echarts/echarts',
 		'text': 'requirejs/text',
 		'json': 'requirejs/json',
 		'app': '../app',
