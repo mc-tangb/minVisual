@@ -18,7 +18,8 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 				"chart/heatmap" : "heatmapChart",
 				"chart/flowlines" : "flowLines",
 				"chart/bar"     : "barChart",
-				"chart/relation": "relationChart"
+				"chart/relation": "relationChart",
+				"chart/attacks" : "attackChart"
  			}});
  			// 点图
 			router.on("route:scatterChart", function(){
@@ -802,7 +803,7 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 					}
 					return res;
 				};
-
+				console.log(convertData(data));
 				var option = {
 					title: {
 						text: '全国主要城市空气质量 - 百度地图',
@@ -2083,6 +2084,20 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 					}]
 				}
 				chart.setOption(option);
+				chart.on("click", function(param){ // 监听点的点击事件
+					var type = param.seriesType;
+					if(type == 'pie'){
+
+					}else{
+						var option = this.getOption();
+						var data = option.series[0].data;
+						for(var i in data){
+							data[i].value = Math.random()*10;
+						}
+						option.series[0].data = data;
+						this.setOption(option);
+					}
+				})
 			});
 			// 热力图
 			router.on("route:heatmapChart", function(){
@@ -3343,10 +3358,23 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 
 
 				chart.on('brushselected', renderBrushed);
-
+				chart.on('brush', function(params){
+					var areas = params.areas;
+					console.log(areas.length);
+					if(areas.length<1){
+						var option = this.getOption();
+					    option.bmap[0].roam = true;
+					    this.setOption(option);
+					}else{
+						var option = this.getOption();
+					    option.bmap[0].roam = false;
+					    this.setOption(option);
+					}
+				});
 				chart.setOption(option);
 				var bmap = chart.getModel().getComponent('bmap').getBMap();
 				bmap.getContainer().style.background = '#081734';
+				/*
 				setTimeout(function () {
 				    chart.dispatchAction({
 				        type: 'brush',
@@ -3354,16 +3382,15 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 				            {
 				                geoIndex: 0,
 				                brushType: 'polygon',
-				                coordRange: [[120.72,34.85],[119.68,34.85],[119.5,34.84],[119.19,30.77],[110.76,34.63],[118.6,34.6],[118.46,34.6],[118.33,34.57],[118.05,34.56],[117.6,34.56],[117.41,34.56],[117.25,34.56],[117.11,34.56],[117.02,34.56],[117,34.56],[116.94,34.56],[116.94,34.55],[116.9,34.5],[116.88,34.44],[116.88,34.37],[116.88,34.33],[116.88,34.24],[116.92,34.15],[116.98,34.09],[117.05,34.06],[117.19,33.96],[117.29,33.9],[117.43,33.8],[117.49,33.75],[117.54,33.68],[117.6,33.65],[117.62,33.61],[117.64,33.59],[117.68,33.58],[117.7,33.52],[117.74,33.5],[117.74,33.46],[117.8,33.44],[117.82,33.41],[117.86,33.37],[117.9,33.3],[117.9,33.28],[117.9,33.27],[118.09,32.97],[118.21,32.7],[118.29,32.56],[118.31,32.5],[118.35,32.46],[118.35,32.42],[118.35,32.36],[118.35,32.34],[118.37,32.24],[118.37,32.14],[118.37,32.09],[118.44,32.05],[118.46,32.01],[118.54,31.98],[118.6,31.93],[118.68,31.86],[118.72,31.8],[118.74,31.78],[118.76,31.74],[118.78,31.7],[118.82,31.64],[118.82,31.62],[118.86,31.58],[118.86,31.55],[118.88,31.54],[118.88,31.52],[118.9,31.51],[118.91,31.48],[118.93,31.43],[118.95,31.4],[118.97,31.39],[118.97,31.37],[118.97,31.34],[118.97,31.27],[118.97,31.21],[118.97,31.17],[118.97,31.12],[118.97,31.02],[118.97,30.93],[118.97,30.87],[118.97,30.85],[118.95,30.8],[118.95,30.77],[118.95,30.76],[118.93,30.7],[118.91,30.63],[118.91,30.61],[118.91,30.6],[118.9,30.6],[118.88,30.54],[118.88,30.51],[118.86,30.51],[118.86,30.46],[118.72,30.18],[118.68,30.1],[118.66,30.07],[118.62,29.91],[118.56,29.73],[118.52,29.63],[118.48,29.51],[118.44,29.42],[118.44,29.32],[118.43,29.19],[118.43,29.14],[118.43,29.08],[118.44,29.05],[118.46,29.05],[118.6,28.95],[118.64,28.94],[119.07,28.51],[119.25,28.41],[119.36,28.28],[119.46,28.19],[119.54,28.13],[119.66,28.03],[119.78,28],[119.87,27.94],[120.03,27.86],[120.17,27.79],[120.23,27.76],[120.3,27.72],[120.42,27.66],[120.52,27.64],[120.58,27.63],[120.64,27.63],[120.77,27.63],[120.89,27.61],[120.97,27.6],[121.07,27.59],[121.15,27.59],[121.28,27.59],[121.38,27.61],[121.56,27.73],[121.73,27.89],[122.03,28.2],[122.3,28.5],[122.46,28.72],[122.5,28.77],[122.54,28.82],[122.56,28.82],[122.58,28.85],[122.6,28.86],[122.61,28.91],[122.71,29.02],[122.73,29.08],[122.93,29.44],[122.99,29.54],[123.03,29.66],[123.05,29.73],[123.16,29.92],[123.24,30.02],[123.28,30.13],[123.32,30.29],[123.36,30.36],[123.36,30.55],[123.36,30.74],[123.36,31.05],[123.36,31.14],[123.36,31.26],[123.38,31.42],[123.46,31.74],[123.48,31.83],[123.48,31.95],[123.46,32.09],[123.34,32.25],[123.22,32.39],[123.12,32.46],[123.07,32.48],[123.05,32.49],[122.97,32.53],[122.91,32.59],[122.83,32.81],[122.77,32.87],[122.71,32.9],[122.56,32.97],[122.38,33.05],[122.3,33.12],[122.26,33.15],[122.22,33.21],[122.22,33.3],[122.22,33.39],[122.18,33.44],[122.07,33.56],[121.99,33.69],[121.89,33.78],[121.69,34.02],[121.66,34.05],[121.64,34.08]]
+				                coordRange: [[120.72,34.85],[119.68,34.85],[119.5,34.84],[119.19,30.77],[110.76,34.63],[118.6,34.6],[118.46,34.6]]
 				            }
 				        ]
 				    });
-				}, 1000);
+				}, 10);
+				*/
 				function renderBrushed(params) {
+					console.log(params);
 				    var mainSeries = params.batch[0].selected[0];
-				    var option = this.getOption();
-				    option.bmap[0].roam = false;
-				    this.setOption(option);
 				    var selectedItems = [];
 				    var categoryData = [];
 				    var barData = [];
@@ -3604,24 +3631,6 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 				    "武汉":[114.31,30.52],
 				    "大庆":[125.03,46.58]
 				};
-				var count = 0;
-				for(var i in geoCoordMap){
-					relationData.nodes[count]['x'] = geoCoordMap[i][0];
-					relationData.nodes[count]['y'] = geoCoordMap[i][1];
-					count++;
-					if(count == 77)break;
-				}
-				relationData.nodes.forEach(function (node) {
-			        node.itemStyle = null;
-			        node.value = node.symbolSize;
-			        node.symbolSize /= 1.5;
-			        node.label = {
-			            normal: {
-			                show: node.symbolSize > 30
-			            }
-			        };
-			        node.category = node.attributes.modularity_class;
-			    });
 				//relationData
 				var categories = [];
 			    for (var i = 0; i < 9; i++) {
@@ -3754,6 +3763,7 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 			                name: 'Les Miserables',
 			                type: 'graph',
 			                coordinateSystem: 'bmap',
+			                focusNodeAdjacency: true,
 			                layout: 'none',
 			                data: relationData.nodes,
 			                links: relationData.links,
@@ -3776,6 +3786,369 @@ function($, _, Backbone, leftRouter, ec , busline, tracks, relationData){
 			    };
 
 			    chart.setOption(option);
+			})
+			
+			// 攻击图
+			router.on("route:attackChart", function(){
+				var chart = ec.init($(".chart-list-panel")[0]);
+				var geoCoordMap = {
+				    '上海': [121.4648,31.2891],
+				    '东莞': [113.8953,22.901],
+				    '东营': [118.7073,37.5513],
+				    '中山': [113.4229,22.478],
+				    '临汾': [111.4783,36.1615],
+				    '临沂': [118.3118,35.2936],
+				    '丹东': [124.541,40.4242],
+				    '丽水': [119.5642,28.1854],
+				    '乌鲁木齐': [87.9236,43.5883],
+				    '佛山': [112.8955,23.1097],
+				    '保定': [115.0488,39.0948],
+				    '兰州': [103.5901,36.3043],
+				    '包头': [110.3467,41.4899],
+				    '北京': [116.4551,40.2539],
+				    '北海': [109.314,21.6211],
+				    '南京': [118.8062,31.9208],
+				    '南宁': [108.479,23.1152],
+				    '南昌': [116.0046,28.6633],
+				    '南通': [121.1023,32.1625],
+				    '厦门': [118.1689,24.6478],
+				    '台州': [121.1353,28.6688],
+				    '合肥': [117.29,32.0581],
+				    '呼和浩特': [111.4124,40.4901],
+				    '咸阳': [108.4131,34.8706],
+				    '哈尔滨': [127.9688,45.368],
+				    '唐山': [118.4766,39.6826],
+				    '嘉兴': [120.9155,30.6354],
+				    '大同': [113.7854,39.8035],
+				    '大连': [122.2229,39.4409],
+				    '天津': [117.4219,39.4189],
+				    '太原': [112.3352,37.9413],
+				    '威海': [121.9482,37.1393],
+				    '宁波': [121.5967,29.6466],
+				    '宝鸡': [107.1826,34.3433],
+				    '宿迁': [118.5535,33.7775],
+				    '常州': [119.4543,31.5582],
+				    '广州': [113.5107,23.2196],
+				    '廊坊': [116.521,39.0509],
+				    '延安': [109.1052,36.4252],
+				    '张家口': [115.1477,40.8527],
+				    '徐州': [117.5208,34.3268],
+				    '德州': [116.6858,37.2107],
+				    '惠州': [114.6204,23.1647],
+				    '成都': [103.9526,30.7617],
+				    '扬州': [119.4653,32.8162],
+				    '承德': [117.5757,41.4075],
+				    '拉萨': [91.1865,30.1465],
+				    '无锡': [120.3442,31.5527],
+				    '日照': [119.2786,35.5023],
+				    '昆明': [102.9199,25.4663],
+				    '杭州': [119.5313,29.8773],
+				    '枣庄': [117.323,34.8926],
+				    '柳州': [109.3799,24.9774],
+				    '株洲': [113.5327,27.0319],
+				    '武汉': [114.3896,30.6628],
+				    '汕头': [117.1692,23.3405],
+				    '江门': [112.6318,22.1484],
+				    '沈阳': [123.1238,42.1216],
+				    '沧州': [116.8286,38.2104],
+				    '河源': [114.917,23.9722],
+				    '泉州': [118.3228,25.1147],
+				    '泰安': [117.0264,36.0516],
+				    '泰州': [120.0586,32.5525],
+				    '济南': [117.1582,36.8701],
+				    '济宁': [116.8286,35.3375],
+				    '海口': [110.3893,19.8516],
+				    '淄博': [118.0371,36.6064],
+				    '淮安': [118.927,33.4039],
+				    '深圳': [114.5435,22.5439],
+				    '清远': [112.9175,24.3292],
+				    '温州': [120.498,27.8119],
+				    '渭南': [109.7864,35.0299],
+				    '湖州': [119.8608,30.7782],
+				    '湘潭': [112.5439,27.7075],
+				    '滨州': [117.8174,37.4963],
+				    '潍坊': [119.0918,36.524],
+				    '烟台': [120.7397,37.5128],
+				    '玉溪': [101.9312,23.8898],
+				    '珠海': [113.7305,22.1155],
+				    '盐城': [120.2234,33.5577],
+				    '盘锦': [121.9482,41.0449],
+				    '石家庄': [114.4995,38.1006],
+				    '福州': [119.4543,25.9222],
+				    '秦皇岛': [119.2126,40.0232],
+				    '绍兴': [120.564,29.7565],
+				    '聊城': [115.9167,36.4032],
+				    '肇庆': [112.1265,23.5822],
+				    '舟山': [122.2559,30.2234],
+				    '苏州': [120.6519,31.3989],
+				    '莱芜': [117.6526,36.2714],
+				    '菏泽': [115.6201,35.2057],
+				    '营口': [122.4316,40.4297],
+				    '葫芦岛': [120.1575,40.578],
+				    '衡水': [115.8838,37.7161],
+				    '衢州': [118.6853,28.8666],
+				    '西宁': [101.4038,36.8207],
+				    '西安': [109.1162,34.2004],
+				    '贵阳': [106.6992,26.7682],
+				    '连云港': [119.1248,34.552],
+				    '邢台': [114.8071,37.2821],
+				    '邯郸': [114.4775,36.535],
+				    '郑州': [113.4668,34.6234],
+				    '鄂尔多斯': [108.9734,39.2487],
+				    '重庆': [107.7539,30.1904],
+				    '金华': [120.0037,29.1028],
+				    '铜川': [109.0393,35.1947],
+				    '银川': [106.3586,38.1775],
+				    '镇江': [119.4763,31.9702],
+				    '长春': [125.8154,44.2584],
+				    '长沙': [113.0823,28.2568],
+				    '长治': [112.8625,36.4746],
+				    '阳泉': [113.4778,38.0951],
+				    '青岛': [120.4651,36.3373],
+				    '韶关': [113.7964,24.7028]
+				};
+
+				var BJData = [
+				    [{name:'北京'}, {name:'上海',value:95}],
+				    [{name:'北京'}, {name:'广州',value:90}]
+				];
+
+				var SHData = [
+				    [{name:'上海'},{name:'包头',value:95}],
+				    [{name:'上海'},{name:'昆明',value:90}],
+				    [{name:'上海'},{name:'广州',value:80}]
+				];
+
+				var GZData = [
+				    [{name:'广州'},{name:'福州',value:95}],
+				    [{name:'广州'},{name:'太原',value:90}],
+				    [{name:'广州'},{name:'长春',value:80}]
+				];
+				var convertData = function (data) {
+				    var res = [];
+				    for (var i = 0; i < data.length; i++) {
+				        var dataItem = data[i];
+				        var fromCoord = geoCoordMap[dataItem[0].name];
+				        var toCoord = geoCoordMap[dataItem[1].name];
+				        if (fromCoord && toCoord) {
+				            res.push({
+				                fromName: dataItem[0].name,
+				                toName: dataItem[1].name,
+				                coords: [fromCoord, toCoord]
+				            });
+				        }
+				    }
+				    return res;
+				};
+
+				var color = ['#a6c84c', '#ffa022', '#46bee9'];
+				var series = [];
+				[['北京', BJData], ['上海', SHData], ['广州', GZData]].forEach(function (item, i) {
+				    series.push({
+				        name: item[0],
+				        type: 'lines',
+				        coordinateSystem: 'bmap',
+				        zlevel: 1,
+				        effect: {
+				            show: true,
+				            period: 6,
+				            trailLength: 0.5,
+				            color: '#fff',
+				            symbolSize: 3
+				        },
+				        lineStyle: {
+				            normal: {
+				                color: color[i],
+				                width: 0,
+				                curveness: 0
+				            }
+				        },
+				        data: convertData(item[1])
+				    },
+				    {
+				        name: item[0],
+				        type: 'effectScatter',
+				        coordinateSystem: 'bmap',
+				        zlevel: 2,
+				        symbolSize: function (val) {
+			                return val[2] / 10;
+			            },
+			            showEffectOn: 'emphasis',
+			            rippleEffect: {
+			                brushType: 'stroke'
+			            },
+				        label: {
+				            normal: {
+				                show: true,
+				                position: 'right',
+				                formatter: '{b}'
+				            }
+				        },
+				        itemStyle: {
+				            normal: {
+				                color: color[i]
+				            }
+				        },
+				        data: item[1].map(function (dataItem) {
+				            return {
+				                name: dataItem[1].name,
+				                value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+				            };
+				        })
+				    });
+				});
+
+				var option = {
+					backgroundColor: '#081734',
+					tooltip : {
+				        trigger: 'item'
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        top: 'center',
+				        left: 'right',
+				        data:['北京', '上海', '广州'],
+				        textStyle: {
+				            color: '#fff'
+				        },
+				        selectedMode: 'multiple'
+				    },
+					bmap: {
+						center: [116.46, 39.92],
+						zoom: 6,
+						roam: true,
+						mapStyle: {
+						    styleJson: [{
+						        featureType: 'water',
+						        elementType: 'all',
+						        stylers: {
+						            color: '#044161'
+						        }
+						    }, {
+						        featureType: 'land',
+						        elementType: 'all',
+						        stylers: {
+						            color: '#091934'
+						        }
+						    }, {
+						        featureType: 'boundary',
+						        elementType: 'geometry',
+						        stylers: {
+						            color: '#064f85'
+						        }
+						    }, {
+						        featureType: 'railway',
+						        elementType: 'all',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'highway',
+						        elementType: 'geometry',
+						        stylers: {
+						            color: '#004981'
+						        }
+						    }, {
+						        featureType: 'highway',
+						        elementType: 'geometry.fill',
+						        stylers: {
+						            color: '#005b96',
+						            lightness: 1
+						        }
+						    }, {
+						        featureType: 'highway',
+						        elementType: 'labels',
+						        stylers: {
+						            visibility: 'on'
+						        }
+						    }, {
+						        featureType: 'arterial',
+						        elementType: 'geometry',
+						        stylers: {
+						            color: '#004981',
+						            lightness: -39
+						        }
+						    }, {
+						        featureType: 'arterial',
+						        elementType: 'geometry.fill',
+						        stylers: {
+						            color: '#00508b'
+						        }
+						    }, {
+						        featureType: 'poi',
+						        elementType: 'all',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'green',
+						        elementType: 'all',
+						        stylers: {
+						            color: '#056197',
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'subway',
+						        elementType: 'all',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'manmade',
+						        elementType: 'all',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'local',
+						        elementType: 'all',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'arterial',
+						        elementType: 'labels',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'boundary',
+						        elementType: 'geometry.fill',
+						        stylers: {
+						            color: '#029fd4'
+						        }
+						    }, {
+						        featureType: 'building',
+						        elementType: 'all',
+						        stylers: {
+						            color: '#1a5787'
+						        }
+						    }, {
+						        featureType: 'label',
+						        elementType: 'all',
+						        stylers: {
+						            visibility: 'off'
+						        }
+						    }, {
+						        featureType: 'poi',
+						        elementType: 'labels.text.fill',
+						        stylers: {
+						            color: '#ffffff'
+						        }
+						    }, {
+						        featureType: 'poi',
+						        elementType: 'labels.text.stroke',
+						        stylers: {
+						            color: '#1e1c1c'
+						        }
+						    }]
+						}
+					},
+					series: series
+				}
+				chart.setOption(option);
+				var bmap = chart.getModel().getComponent('bmap').getBMap();
+				bmap.getContainer().style.background = '#081734';
 			})
 		}
 	})
